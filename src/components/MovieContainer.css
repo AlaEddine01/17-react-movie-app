@@ -1,0 +1,6 @@
+.Movie{
+    display: flex;
+}
+.cards{
+    display: grid;
+}
