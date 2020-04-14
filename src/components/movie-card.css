@@ -1,23 +1,31 @@
+.cards{
+  display: flex;
+  /* border: 1px solid yellow; */
+  width: 90vw;
+  justify-content: center;
+  flex-wrap: wrap;
+  
+}
 .MovieCard{
-
-    border: 1px solid black;
-    width: 22%;
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-
+  margin: 10px 20px;
+  border: 1px solid black;
+  text-align: center;
+  background-color: darkgray;
+  /* position: relative; */
 }
-
-.TitleDate{
-    text-align: center;
-    background-color:darkgray;
+span{
+  font-size: 20px;
 }
-
-.img{
-    width: 100%;
-    height: 100%;
+img{
+  width: 260px;
+  height: 235px;
 }
-
-.starsCard{
-
+.rank{
+  /* position: absolute; */
+  /* right: 0; */
+}
+svg{
+  fill: gold;
+  height: 30px;
+  width: 30px;
 }

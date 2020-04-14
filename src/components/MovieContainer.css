@@ -1,6 +1,18 @@
 .Movie{
-    display: flex;
+    margin-top: 10px;
 }
-.cards{
-    display: grid;
+.cardss{
+    display: flex;
+    justify-content: center;
+    margin: 2.5%;
+    /* border: 1px solid blue; */
+}
+.btn-danger{
+    right: 0px;
+    position: absolute;
+    margin-bottom: 50px;
+    margin-right: 50px;
+}
+p{
+    height: 15px;
 }

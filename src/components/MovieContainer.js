@@ -1,33 +1,72 @@
-import React, {Component} from 'react';
-import './MovieContainer.css';
+import React, { Component } from "react";
+import "./MovieContainer.css";
 import MovieCard from "./movie-card";
 // import Stars from "./Stars";
-import ModalFilm from './Modal';
+import ModalFilm from "./Modal";
+import Search from "./Search";
 
 class MovieContainer extends Component {
+  state = {
+    Tab: [
+      {
+        name: "Breakingbad",
+        year: 2011,
+        rank: 5,
+        image:
+          "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhUTEhIVFRUXFRUVFRUVFRUVFRUVFRUWFhUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OGBAQGi0dHR0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS03LTctKzctK//AABEIAK4BIgMBIgACEQEDEQH/xAAbAAABBQEBAAAAAAAAAAAAAAAEAQIDBQYAB//EAD0QAAEDAgQDBQUGBQQDAQAAAAEAAhEDIQQFMUESUWETInGBkQYyobHwFUJSwdHhFCNikvEWU4KiB2NyQ//EABgBAQEBAQEAAAAAAAAAAAAAAAABAgME/8QAIREBAQACAwABBQEAAAAAAAAAAAECERIhMUEDIjJRYRP/2gAMAwEAAhEDEQA/AMsAlhOAXQuLsQBLCWEoCBsJYToSgIhsICvjZ7rP7v0TMwrF7uzboPePPp4KWlhwAs5ZadMMNhOEqWmSjBRC7sgFjk68CUqiPoOB1QtOmiabAsVqY1bYbDh0TujPsofdI6KDLXTDR4c1u8pyZhF9gD6qSbTK6eeY3KXNuL9N1VubBg2O69ZzHIgJcFjM2yyQbQRPCecbH61W5lZ1XK4zLuMwQlAXQnQurmQBOhcAnQgbCWEsJYQJC6E4BLCBsJYToXIGpUsJwpnkfRA0BLCd2ZGoUlPDucJDSR0CiogE4J76RaYIIKQBBwCVLCcAgaAnBqUBPAQM4VylhcoqhhLCWEsLTJISwlhKAgQBNrP4Wl3If4UoCFzD3QOZ+A+ghJuhMHTgSbk38zdEAJaTERTYuNr2YzUM4TskLUZwDmkFMEG/VZaBmy4V1NVp3jpKFAMqpVpluKg2JXouQZrIANj9BeQudwnkrfKs54Xe84H15ajdPHPKbeuZhjwKbhMGFlMddpJPVBjPHPYeK4Pda4GWjntN7enVMfiCW6/Q1Clu2ZjpQ4+lwvPI3/X4qABW2Z0Jph/J3D6ifyVYAu2F3HLOapqWE4BdC0y6EoCUBLCgQBLCWErQgWlRLiA0SSrShkFQnvQAnYPMG0xZolGDPByWba1JBGHyagy5uRzVhSxFPZo9Aqs4tjt1MHU2iSVjtrpcjD0n6tB8kuHwbKchgAEyqinjBPdMBF0caB95AP7S5eHM4wO8PksjC3NTGtIIOiyeY02B/c0W8azQgCcAuAToWkIAnALgE8BRSLk6FyCiDUvCnwlhVkwBOATg1ODUDIQeYi7PP8lYhqDzNscHifl+yXxrH2GU9UVTjn6oRjlO1x5fFcHrgoQZChDTE+WqY9tvdPrKgdw7yPJBJUaeIa/UqFzO9v6n4/W6nPC6L+XEo61AaGJJQCYqnt0TcNQYHCXNO8Fzm+VtCm4gtBNt0oxsEfyWG34Gkn9VueMVosDQaGEgtMagOLg6dWmR3T5x80+lirjhdPFYTrYxBH4gbHp4KspNpuI4aT6FYCe6C0EHbgdseYCOwGHcagJvebQJdB4XGLaSJ8Fmo0tbCcVPgNrg+g/yo25NT1lWDWj/AKj5j91FiA4DuiUxvTnnOwQyWnOp8E3GZUxml05uP4T3hcbLq2ahwu1b7Z6VgY15hrYRn2IYs4IVzpMgQnjFPH3ir2iHFYB9PUeaFhWX8e4iHXCg4gbQArLflA4YdYKVoOy0mDxdMANt4I2nSph0taJKnJdMi8O1ghIXk6krcVqTS2ICzjctPGWkWSZGlaHnmpsNRe8w0Eq4blLAZJtyRVGsxlmgBTkulJVw1VuoKibh3HY33W2oPDgocRR2EQnI0p6Xs8CJL0Ji8me0w3vDmtDSbG6a3iB1kclNrpRYbJ3H3rBG/ZbBHdPirNlTmE4VwTZNmlb9kN5FcrbtQuUXTzABOAUrqRGq5oXVzMDVIynKVT0KvCdFNhv8PaZVdm7O608n/MFWGZVA6m4Rt8r/AJLOYrHFjRTHebZxsZptB58v3U38NyfIhjoUtNw2PqVQ4qu8+7F9OSmpnFQP5waPIfks8XXn+o0TGx94xHSELiHXZPWdtjHzWcxVWp9+vTcf+JPyUYe8xc6jSTM8t1eCf6fxo6VYNeJ0M/spq1Zpc0ggAa+YVPj8UAGcJL+6DLQ6ATqCSBcdJVU7EcbgOLhnUlJhtb9TS2xeIpgzxAlQU8xbMAx1QeFwtI8Re98DXhbxQNJMCy6o3DCQ15JnUzt10WtRzuVaGnm5ewNce1Y0zwu4S5vWm7n0haH2eqjteHYwQYABMtcDHh8153ScGEOBtsR8LrS+z+YEVabHMeGk8IqMEu4g2WgMkGPdFjAWcsVxy/bdDMWcRPENPdPvBrSRJGw0v1UuAzWlVBLXNja9yJiQOWsbmCYi68+9vKT6NYUw9x4wXm+rSYa3yh0812V4gBuEAie2r0yRuOCmNeXfWZj0vtbXMOzNxqhMNQDnRMJpSNmbLbktazIs0BRNwAIvYoQ1H63RuFqO1JnosqY3LWE+8paWFpsN7+KsqXCRdoXVMLTcLhTa6AVWUhcQD0UNHF8LvesjMRljCO7ZCjLIMm4V6O1kzHA7rnVxMwfRRtIHutCmo13aEKL2hxGJG4KGqtb6qzc8O1FlBicsabyUO0OEquClrY0p1Og2noV1Wmx99EC4KvxooA80CzDRdpSEmYJUVZNa2LlClnJdTYRqVM90DRERgdUqGLXLkGdfQkXQJarJw4hEQoqmCjQrUqWAwFJTZJUrMMSpTgzsVds6qOphAWmDeCstjKbIaYEktBMCYDhaeS1jqDgsxmDJc4bifIzY+qldcPLAFbLjT77Y1906Xtp5pH5GHXeS4n6sNlYvdxhnV4DhoQeRO11a0qNtfT9f8KcrG+EZOtlAaTwifWfRSVIptY0A8RNp0EDbzhaV4YATYDfy3Kpa5DnkxYRAj08CZJ9FZlb6nDXh+IADY6fksrUdDgYmJB8R+y0ePPdlUNCmHPLTbi08VvDxj6vsiyyam17XADe9r+ZKTF4GD7sJMG00SD5OHTY+HVW9alxgEOkG0clLdVZNzTP0sKT3RMchz8Oa0mQYQ06hJJ4m8IAtF9dR/wDOiFaWUzfXpqfJGZdijMk3LuI+gAB/4gDyPNTK2xZjIsv/ACjhXF9KuBIbRaHcwS8wSOUnXwVF7I0e04f/AFVHP/vYG/No9Ffe3uIc40mtBIqUntgW+4BHqWqD2AyqpTbXNVpaeNrOF34mcXF4+9CY37WculzwqWmSy5Hqrelh4EiJTq9DiEEeim2NBGYlpbceSVrJ90FPFENEQmmtGhUVIxzmjvWT6OI4jCBrVXG+yjwz3tOkqKuiyFzgdEBWxx2BUBxjuqCxe8N1UjKoInZVDsUSLpmHxpZIiZVF0wTJF0ytWIEXQOFzMt2RD80B1aoIu0cealZRcQosPioMqzp41ptCBuFdAhyFfXubox+JboVUV44pGiqWi6eNix0RRxTCFTu1T2po2LNUcyuQy5NG1OyoOqmFdRsw87qQ4QjdOjs4VxySGrylKykB1UwAO0IvaIGQqX2gw0EPbaRfrET+XotDTYNFX55hS9oLQTwk2GsHkEXHqqGg1rxBE/DwRDA8Wa8EcnAn4tIQGGdHkY9FY032UrtAmMpHV9SBrDRE+ZJKELdmiB9XJUtX+ZU7x7jbnkUFiK0VO68RyIuPPdWHUEV6ZDSHCIHzVTWy4kAsPj4ojMcc8TIcbC+3qqA42pJgkSumMrl9TLFf5Xjb9nUaCRccQBn1U+IoN4iQS0cgTA8iqCi9znteTcRfwWkrkcPEdOnkplNUwssVOIbw6Ex6I/ITxPid/M2/ZBVe8HDzH6FFezYioC7Yj6+KZeJPyXXtXNR2HphpkE9+/du2RGnXyW1ZWbwjwHjPVU1PKqprGp2oFIt4XMgkuIJII2GuqtqjJ1C5zyLnYStjBEBRUcwvcp5wbdU6nRpwjKTD4jjd0U8MkgoF7I0MJGM5uQF4lrRHCfJcwFCvoxeUtOuQgIY8A31UrqrCdAq97yTK4SrpNjyGHZO/hKZVffmp6dRRUtTL27FDtwnMwjGvbGqGrtGxlUQOZBhK2UsJwCrJq6E+F0IEDU4BKGp4YeSgbC5P4CuQAvLSJ0KDqvPNRNfKUsKjey033Rba/NB1NElMA7wiLEVQlNYFB9naxTBQKDP4lsV3jYuJ9e9+aHrYvhaSbAaz8kRj8VSdXAZUDiBD+G4BBtfQna2kKl9o2FrbaEyfTRa13p05ax3Ffic3cdDAmUHVrkmV2FolxECVY/ZTyPd9JK7dRwnLIHSxj5N9oQ1SpqfRWjcve3/8yhquBfM8HxSWFmWggqeXyOisMHjXBsOu2deR1QZoHSPin0qZGpsrdVJuLAVuW7o8t0fV7gpkWLnX9R9eSrcQ0NZTcJ96D6agrQU8F29ehT0DQ1zugPePwj1XKusegYQ91ttgfW6nqPB2UD6gGihfWPIrmhHVIMKZlVv4UMJKeKZ5oCXkFIKLE0hy5rygU4YHRygdSIUzl3D1RNIW01IGAKVtIEWTDT6oacA1ONMJBTTwxFIKQTuzau4EsIHcAUcDklFUKbs5QQtI5KRoB2S8CZUIRImayNE4Hohm1DsnkuCKl7ULlBwHkuQZ7iaFI2uOQVB2q4VSt8WeS7dB0sl7Mc1Tsrnmur4wMaXPdAH1A5lOK8lji8VTpNL6jw1o3/IDc9F5/n/tRVrkspksp6RMOcP6yPkPihM6zV1d8mzR7jeQ5nqq2gLldsMJO645Z76g7KiW1qYG8g+Y/YLQ53VmjPO3gVnaFThc13I38N1f5v3qQIuDBt6rOf5R1+nftqpyupBJjz5XVpUzEgwP8bKiYTsiTYbyUymzHKyaEV8xde+6jfjTCgq0eqiLE1EuVSPfCRlSTB0Pw8FDxbKXD3sBuPTda0zsa6kXOpMGhv4Sb/Ir0rKME2mC+QXPgyIIDR7jQR0hefZm7sgxxAIf/L4TqGx/M26xPVSZFnr8LUOHqEvpgw3m0agjxBBhc7jubbt109MK4Ocqhma0yJD7Jn21TH3j6Fc1XzanRNcCbyqP/UNIbmPBc72mojUO9E0rQUSeaUtWcPtdhxfveiiq+2tH7rXETfaAmqbaZxSAhZh/tlQ2a4+ih/1vT/2neoV41Ntgx0aJXGVjD7dgaUT/AHBMPt9yo/8AZONNxt2NITgDKww/8gGLUfUpB7eOJjsgPNONNxui3qnjRYN3ttU1DGeF05vtjWNuFg9U4022/ZqZoPNecO9tcRxEQ2B0meqV3tniRrAG3d/dONNx6M8lMJB2Xmw9scQRZw8wAkpe1OKcfeFunzTjTb0cMXQvPPt7Eky6pA/pSf6qqtnvk+KcaPRp8Vy80PtXiPxj0XK8abE8JXNHVCux9L8RO1kPiszosEAyT4/Ep3WrxH1MQGtLnGAFk80zF1Z17NHut5fuuzDHmoeTRoPzPVBFdcMdeuOeW/EVTqn4UWPio6wT8IdQujkKj6+aOwGL7poP0PuH8vVBj9/1TK1ORba4WbN9N45aSgEGDtqnPdefRdhMQ144KlnbO+F1NXwb9AJ5Qs3+tyddIn1p8kO507p76bm+8I8VHw81YlRv1VlldEzJ52kfWxQocwETcdFYHGNAmIa24HjsltMZN7R+0mI7StSZ+FrZ8XQT42AUPtRT4awcN2N9W938gocsaatfjP4h6nb0Rvtc4E0+ff8AQwUnVkZt3upcuxZ4AZP9UekoxmHe4FwcY26qoycyI6QfPQovBY91IkatOoPPmFjKfp1l67FvwTz97yUNTL3/AIr+PyUmIzxwjhb4qIZ446MHFsYUnJbcTGZc+YJ9FM3Kr3sPFC/atYa/JR1swqEzPkrrJneKw+zWacV/FSfY7RoZ5qvwGYd7v8uSLGLeSCGnwAUu2pcaecvpjW5+tktDA0yDbXmpsYx/BxcMGRPqh3VQwXdJ/NTdq6id1Cm0WF/CUnZsiXNG19FDhccS/pCs8RTaWTPL5qXomqAqVGg6fBP4IudDCmq1qR4m3kDwQuc5g1tMBgBJ35Qk3ei6iTE0Gkt26jVCYys1khoBM6lBYDMnhwLridFLjMQ2o4kCLrcllZ3L4ZhsSS/vARPJG1sTNmwNVXMZO3oo6RImQfRXSbHuc7nKOyfCB/vDTbZVbK8gazyR+X13tNmlZy8Werv7JpfgHquQBxVRcueq6dM3UxLW2AlB1Kpcf0UfEuBXqkeW3Zy4rguVQyoLKKm6CiChni6RKsWn6+uaUH66IfC1JEcvkp5+vms1UFenBsj8szKO68+B5Ici3h8lB2ImJjlyTqxcbY0GMAc3n1VfXpAwAEzDip7tncrx81d4XKKzr9k4DoJ+UrH4u2+TP1MPCFqEujkLLSZjkdeLU3efC0f9iFV4mm2i1ocWl24a5riD4gwtTLbGUWOR4UNa0nW7j6LP5riu0qOdtMDwFvyV5Wx7P4cuYbkcHUOda/lJWZhXGd7Yyvwt8nMSek+l07EC5jnbw2UWXui6lriCpfWp4jpvixRDGj4zYqByTijTZBfYPsHCIgnXivPmjauQ0nkHTwNlmm1Ubgszew2Mjkbhc7jfh0mU+V0cBTZUphrRo7zhG16jWNJ0hU1TM+IteB7s2HVCZjnBewtG/qs8ba1ykMzfNXVLNMNsqt5duiWUS5hkXSYilAAOq6TUc7u9oaDi26tP4ovAvpsqyBwzN+Sfh3xolhKPbhKhkgE2Qz3HR7SNkTgMzfTMEyCtA3gqN0HmJWLbG5JVPh8qBc0h2vojH5I0d7h4jP3NVYU8E1tgI3U3ZPBEaLNyrXGB8Lh2RDRcbEQVN2O5aPRSVBU2IlRChVOr1loLUc0fcH9qkcw8PuyNdITq+EMWLp8bKtquqaOkhX1Ena/0/FcnBg/CfVcgwyVIlXreQoSlIE5A1Q1dVMo6oSBlN0GUePr9FXI7DmRH1KmREk/XzQjX8TugmNtLop5t6oTDMkeBnZID2OkSNeX5o7D+0tagC2m6T1EgeA5qscY8h8EJTU1L6vLSTGYypVcXVHue47uJPoNAPBD8JU/6FF5UwGs2RN/kFreonobE0ywBptIDiN9wJ63KFKsMzfxVCT4ehICGY0WSVKJwDoMIysLKtpOhwKtHmw6hZreIZ6WoEjk96ihadThdG35KepzCHxAtP1dPwr5sVpE9OqQZCLw+YDcfqP1Ve8cN1HimweIWlTUq7saCo7iNrg7jRCVxJIaOI8hqhsjzN1J4+80mC0/l1W5dhKbuGoGiYBB0N+cLlleNdMfujzl5cDDgR42T6fNbTMqLbgtaZ5jRUn2Y2YHKVZnuJcNAWXVjhcVBAMgDfZLhcvk7WRQwexjSVLYslEtzcWRVDNQenK6pOzaDYaIpgB0ssWR0m1g+s90w74KSjinAd6SfBCU6JiZE+iXsKhHvqaFjReSJJjonvwzCqp9OoBd9ugTA92zo8E0u1l/Ct6/Fcgh2v+4VyaH/2Q==",
+      },
+      {
+        name: "Blindspot",
+        year: 2015,
+        rank: 5,
+        image:
+          "https://img.nbc.com/sites/nbcunbc/files/files/images/2018/9/13/Blindspot_S4-Web-DynamicLead-Mobile-1114x891.jpg"
+      },
+      {
+        name: "Mr. Robot",
+        year: 2015,
+        rank: 5,
+        image:
+          'https://img.bfmtv.com/c/1000/600/1fa/af34fb8d134b58136479c15cd9674.jpeg'
+      },
+      {
+        name: "Gomorra",
+        year: 2014,
+        rank: 3,
+        image:
+          'https://i2.wp.com/cloud.estacaonerd.com/wp-content/uploads/2019/05/22012648/23621509_690243274512825_4790611339932837084_n.jpg?fit=638%2C282&ssl=1'
+      },
+      {
+        name: "Shooting Heroin",
+        year: 2020,
+        rank: 4,
+        image:
+          'https://www.bionicbuzz.com/wp-content/uploads/2020/02/ShootingHeroin_croppedMoviePoster-320x202.jpg'
+      }
+    ],
+  };
 
-   state={
-
-       Tab:[]
-    }
-
-   addFilm = (input) =>{
+  addFilm = (input) => {
     this.setState({
-        Tab:[...this.state.Tab,input]
-    })
-    }
-    
-    render() {
-        return (
-            <div className="Movie">
-                <ModalFilm add={this.addFilm} buttonLabel='showModal' />
-                <div className="cards">
-                    <MovieCard liste={this.state.Tab}/>
-                </div>
-                
-            </div>
-        );
-    }
+      Tab: [...this.state.Tab, input],
+    });
+  };
+
+  render() {
+    return (
+      <div className="Movie">
+        <Search cmp={this.state.Tab} />
+        <div className="cardss">
+          <div>
+            <MovieCard liste={this.state.Tab} />
+            <ModalFilm add={this.addFilm} buttonLabel="Add a film"/>
+          </div>
+          
+        </div>
+        
+      </div>
+    );
+  }
 }
 
 export default MovieContainer;
